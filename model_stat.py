@@ -114,11 +114,11 @@ if __name__ == "__main__":
 
             if scores[i]< (scores[i-1] - 0.5):
                 ignore_str = "you are on right track,"
-            else if (scores[i]> (scores[i-1] + 0.5)):
+            elif (scores[i]> (scores[i-1] + 0.5)):
                 ignore_str = "previous attempt, albeit imprefect, was closer to the truth"
-            else if ((scores[i - 1] - 0.5) < scores[i]) or ((scores[i - 1] +0.5 > scores[i])):
+            elif ((scores[i - 1] - 0.5) < scores[i]) or ((scores[i - 1] +0.5 > scores[i])):
                 ignore_str = "Wait, think again"
-            else if scores[i] == 0:
+            elif scores[i] == 0:
                 break
         
 

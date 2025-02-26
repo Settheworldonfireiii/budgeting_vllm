@@ -16,17 +16,26 @@ def get_statistics(
     answers, 
     tokenizer, 
     model, 
-    batch_size, 
-    use_cuda=True
+    use_cuda=True,
+    slow_cpu_version = False
 ):
-    feats = get_embs(
-        querys, 
+    if slow_cpu_version:
+        feats = get_embeddings(
+        querys,
         answers, 
         tokenizer, 
         model, 
-        batch_size, 
         use_cuda
     )
+    else:
+        feats = get_embs(
+        answers, 
+        tokenizer, 
+        "intfloat/e5-mistral-7b-instruct", 
+        use_cuda
+        )
+
+    
     return calculate_feature_statistics(feats)
 
 
@@ -54,7 +63,8 @@ if __name__ == "__main__":
     tok = AutoTokenizer.from_pretrained(
         args.model_name
     )
-    model_x = AutoModelForCausalLM.from_pretrained(args.model_name)
+    #model_x = AutoModelForCausalLM.from_pretrained(args.model_name)
+    #model_x = AutoModelForCausalLM.from_pretrained("intfloat/e5-mistral-7b-instruct")
 
     stop_token_ids = tok("<|im_end|>")["input_ids"]
     ds = load_dataset("VanWang/NuminaMath-CoT_O1_Qwq")
@@ -68,7 +78,6 @@ if __name__ == "__main__":
         scores = []
         prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
         stop_token_ids = tok("<|im_start|><|im_end|>")["input_ids"]
-        mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
 
         sampling_params = SamplingParams(
             max_tokens=args.max_tokens,
@@ -77,14 +86,15 @@ if __name__ == "__main__":
             skip_special_tokens=False,
             temperature=args.temperature,
         )
+       
         prompt += "<|im_start|>think"
         o = model.generate(
             prompt,
             sampling_params=sampling_params
         )
         ignore_str = "Wait, think again"
-        mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
-        mu2, sigma2 = get_statistics(p['prompt'], o[0].outputs[0].text, tok, model_x, 1, use_cuda=True)
+        mu1, sigma1 = get_statistics( p['prompt'], p['chosen'], tok, model_name, use_cuda=True)
+        mu2, sigma2 = get_statistics( p['prompt'], o[0].outputs[0].text, tok, model_name, use_cuda=True)
         scores.append(calculate_frechet_distance(mu1, sigma1, mu2, sigma2))
         print("Frechet distance ", scores)
         if scores[0] < 0.5:
@@ -107,8 +117,9 @@ if __name__ == "__main__":
                 prompt,
                 sampling_params=sampling_params
             )
-            mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
-            mu2, sigma2 = get_statistics(p['prompt'], o[0].outputs[0].text, tok, model_x, 1, use_cuda=True)
+            mu1, sigma1 = get_statistics( p['prompt'], p['chosen'], tok, model_name, use_cuda=True)
+            mu2, sigma2 = get_statistics( p['prompt'], o[0].outputs[0].text, tok, model_name, use_cuda=True)
+
             scores.append(calculate_frechet_distance(mu1, sigma1, mu2, sigma2))
             print("Frechet distance ", scores[-1])
 

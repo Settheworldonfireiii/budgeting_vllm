@@ -10,15 +10,16 @@ import torch
 import transformers
 from transformers import (
     AutoTokenizer,
-    AutoModel
+    AutoModelForCausalLM
 )
 
 
 
 from transformers import pipeline
 
-from vllm.engine.engine_args import EngineArgs
-from vllm.engine.llm_engine import LLMEngine
+from vllm import LLM
+import pdb
+
 
 try:
     from tqdm import tqdm
@@ -44,63 +45,31 @@ def get_model_configs(pretrained_model_path, is_chinese=False):
     model = AutoModel.from_pretrained(pretrained_model_path, return_dict=True)
     return tokenizer, model
 
-def get_embeddings(querys, answers, tokenizer, model, batch_size, use_cuda=True):
-    feats = []
-    #model.eval()
-    #if use_cuda:
-    #    model.to('cuda')
-    pipe = pipeline('feature-extraction', model=model, tokenizer = tokenizer)
-    with torch.no_grad():
-        num_batches = len(querys) // batch_size
-        if len(querys) % batch_size > 0:
-            num_batches += 1
-        for i in tqdm(range(num_batches)):
-            query = querys[i*batch_size : (i+1)*batch_size]
-            answer = answers[i*batch_size : (i+1)*batch_size]
-            if len(query)== 0 or len(answer) == 0:
-                continue 
-            inputs = tokenizer(query, answer, return_tensors='pt', padding=True)
-            inputs =  inputs.to('cuda')
-            model = model.to('cuda')
-            outputs = model.generate(**inputs)
+def get_embeddings(querys, answers, tokenizer, model, sampling_params, use_cuda=True):
+    
+    model = AutoModelForCausalLM.from_pretrained(model, max_length = 5000)
+    inputs = tokenizer(querys, answers, return_tensors='pt', padding=True)
+    #inputs =  inputs.to('cuda')
+    #model = model.to('cuda')
+    outputs = model.generate(**inputs)
 
-            feats.append(outputs[:, 0].cpu().data)
-            #outputs = pipe(answer)
-            #feats.append(outputs)
-    feats = torch.cat(feats).numpy()
+    feats = outputs[:, 0].cpu().data.numpy()
     
     return feats
 
 
 
-def get_embs(querys, answers, tokenizer, model_name, sampling_args, batch_size, use_cuda=True):
-    feats = []
-    #model.eval()
-    #if use_cuda:
-    #    model.to('cuda')
-    engine_args = EngineArgs.from_dict({
-    "model": model_name,  # e.g. a model trained or fine-tuned for embeddings
-    "task": "embed",
-    # add any additional configuration parameters as needed
-})
-    with torch.no_grad():
-        num_batches = len(querys) // batch_size
-        if len(querys) % batch_size > 0:
-            num_batches += 1
-        for i in tqdm(range(num_batches)):
-            query = querys[i*batch_size : (i+1)*batch_size]
-            answer = answers[i*batch_size : (i+1)*batch_size]
-            if len(query)== 0 or len(answer) == 0:
-                continue
-            inputs = tokenizer(query, answer, return_tensors='pt', padding=True)
-            inputs =  inputs.to('cuda')
-            model = model.to('cuda')
-            outputs = model.generate(**inputs)
+def get_embs( answers, tokenizer, model_name, sampling_params, use_cuda=True):
+    
+    
+    llm = LLM(model=model_name, task="embedding", load_format="safetensors")
 
-            feats.append(outputs[:, 0].cpu().data)
-            #outputs = pipe(answer)
-            #feats.append(outputs)
-    feats = torch.cat(feats).numpy()
+    
+    inputs = tokenizer(answers, return_tensors='pt', padding=True)
+    pdb.set_trace()
+    outputs = llm.encode(answers)
+
+    feats = np.asarray(outputs[0].prompt_token_ids)
 
     return feats
 

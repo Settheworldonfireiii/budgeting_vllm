@@ -6,7 +6,7 @@ from transformers import (
 
 from datasets import load_dataset
 import argparse
-
+import json
 
 
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     tok = AutoTokenizer.from_pretrained(
         args.model_name
     )
-    model_x = AutoModelForCausalLM.from_pretrained(args.model_name)
+    
 
     stop_token_ids = tok("<|im_end|>")["input_ids"]
     ds = load_dataset("VanWang/NuminaMath-CoT_O1_Qwq")
@@ -44,6 +44,7 @@ if __name__ == "__main__":
 
 
     prompts = ds['train']
+    data = []
     for i, p in enumerate(prompts):
         prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
         stop_token_ids = tok("<|im_start|><|im_end|>")["input_ids"]
@@ -93,8 +94,13 @@ if __name__ == "__main__":
         )
         print("With budget forcing:") # You will see that after the "Wait" in the reasoning trace it fixes its answer
         print(prompt + o[0].outputs[0].text)
-        with open("prompt_"+str(i)+"long_400_or_max.txt", 'w+') as f:
-            f.write(prompt+ o[0].outputs[0].text+"\n \n \n")
-            print("ITERATION ", i)
-            print("written to file prompt_"+str(i)+"long_400_or_max.txt")
-            f.close()
+        entry = { 
+                 'number' : i,
+                 'prompt' : prompt,
+                 'accepted' : p['chosen'],
+                 'rejected' : o[0].outputs[0].text
+                 }
+        data.append(entry)
+        
+        with open("aima-1.json", "w") as outfile:
+            json.dump(data, outfile, indent=4)

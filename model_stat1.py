@@ -7,7 +7,7 @@ from transformers import (
 from datasets import load_dataset
 import argparse
 from evaluate import load
-from utils import calculate_feature_statistics, get_embs
+from utils import calculate_feature_statistics, get_embeddings
 from utils import *
 
 
@@ -19,7 +19,7 @@ def get_statistics(
     batch_size, 
     use_cuda=True
 ):
-    feats = get_embs(
+    feats = get_embeddings(
         querys, 
         answers, 
         tokenizer, 
@@ -68,8 +68,6 @@ if __name__ == "__main__":
         scores = []
         prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
         stop_token_ids = tok("<|im_start|><|im_end|>")["input_ids"]
-        mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
-
         sampling_params = SamplingParams(
             max_tokens=args.max_tokens,
             min_tokens=args.min_tokens,

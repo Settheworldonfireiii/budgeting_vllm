@@ -17,6 +17,9 @@ from transformers import (
 
 from transformers import pipeline
 
+from vllm.engine.engine_args import EngineArgs
+from vllm.engine.llm_engine import LLMEngine
+
 try:
     from tqdm import tqdm
 except ImportError:
@@ -67,6 +70,41 @@ def get_embeddings(querys, answers, tokenizer, model, batch_size, use_cuda=True)
     feats = torch.cat(feats).numpy()
     
     return feats
+
+
+
+def get_embs(querys, answers, tokenizer, model_name, sampling_args, batch_size, use_cuda=True):
+    feats = []
+    #model.eval()
+    #if use_cuda:
+    #    model.to('cuda')
+    engine_args = EngineArgs.from_dict({
+    "model": model_name,  # e.g. a model trained or fine-tuned for embeddings
+    "task": "embed",
+    # add any additional configuration parameters as needed
+})
+    with torch.no_grad():
+        num_batches = len(querys) // batch_size
+        if len(querys) % batch_size > 0:
+            num_batches += 1
+        for i in tqdm(range(num_batches)):
+            query = querys[i*batch_size : (i+1)*batch_size]
+            answer = answers[i*batch_size : (i+1)*batch_size]
+            if len(query)== 0 or len(answer) == 0:
+                continue
+            inputs = tokenizer(query, answer, return_tensors='pt', padding=True)
+            inputs =  inputs.to('cuda')
+            model = model.to('cuda')
+            outputs = model.generate(**inputs)
+
+            feats.append(outputs[:, 0].cpu().data)
+            #outputs = pipe(answer)
+            #feats.append(outputs)
+    feats = torch.cat(feats).numpy()
+
+    return feats
+
+
 
 
 # ----- details on calculating FBD ----- #

@@ -6,9 +6,28 @@ from transformers import (
 
 from datasets import load_dataset
 import argparse
+from evaluate import load
+from utils import calculate_feature_statistics, get_embeddings
+from utils import *
 
 
-
+def get_statistics(
+    querys, 
+    answers, 
+    tokenizer, 
+    model, 
+    batch_size, 
+    use_cuda=True
+):
+    feats = get_embeddings(
+        querys, 
+        answers, 
+        tokenizer, 
+        model, 
+        batch_size, 
+        use_cuda
+    )
+    return calculate_feature_statistics(feats)
 
 
 
@@ -44,7 +63,9 @@ if __name__ == "__main__":
 
 
     prompts = ds['train']
+    
     for i, p in enumerate(prompts):
+        scores = []
         prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
         stop_token_ids = tok("<|im_start|><|im_end|>")["input_ids"]
         sampling_params = SamplingParams(
@@ -60,6 +81,13 @@ if __name__ == "__main__":
             sampling_params=sampling_params
         )
         ignore_str = "Wait, think again"
+        mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
+        mu2, sigma2 = get_statistics(p['prompt'], o[0].outputs[0].text, tok, model_x, 1, use_cuda=True)
+        scores.append(calculate_frechet_distance(mu1, sigma1, mu2, sigma2))
+        print("Frechet distance ", scores)
+        if scores[0] < 0.5:
+            NUM_IGNORE = 0
+       
         max_tokens_thinking_tmp = args.max_tokens
         # Num of times to skip stop token
         for k in range(NUM_IGNORE):
@@ -77,6 +105,21 @@ if __name__ == "__main__":
                 prompt,
                 sampling_params=sampling_params
             )
+            mu1, sigma1 = get_statistics(p['prompt'], p['chosen'], tok, model_x, 1, use_cuda=True)
+            mu2, sigma2 = get_statistics(p['prompt'], o[0].outputs[0].text, tok, model_x, 1, use_cuda=True)
+            scores.append(calculate_frechet_distance(mu1, sigma1, mu2, sigma2))
+            print("Frechet distance ", scores[-1])
+
+            if scores[i]< (scores[i-1] - 0.5):
+                ignore_str = "you are on right track,"
+            else if (scores[i]> (scores[i-1] + 0.5)):
+                ignore_str = "previous attempt, albeit imprefect, was closer to the truth"
+            else if ((scores[i - 1] - 0.5) < scores[i]) or (scores[i - 1] +0.5 > scores[i])):
+                ignore_str = "Wait, think again"
+            else if scores[i] == 0:
+                break
+        
+
         ### Final answer ###
         prompt += o[0].outputs[0].text # You can also append "Final Answer:" here like we do for some evaluations to prevent the model from just continuing to reason in its answer when early exiting
         stop_token_ids = tok("<|im_end|>")["input_ids"]

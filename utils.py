@@ -57,8 +57,8 @@ def get_embeddings(querys, answers, tokenizer, model, batch_size, use_cuda=True)
             if len(query)== 0 or len(answer) == 0:
                 continue 
             inputs = tokenizer(query, answer, return_tensors='pt', padding=True)
-            #inputs =  inputs.to('cuda')
-            #model = model.to('cuda')
+            inputs =  inputs.to('cuda')
+            model = model.to('cuda')
             outputs = model.generate(**inputs)
 
             feats.append(outputs[:, 0].cpu().data)

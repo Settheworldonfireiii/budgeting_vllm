@@ -20,7 +20,8 @@ Example:
 
 ```
 python model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \
---min_tokens=400 --max_tokens=64000 --max_final_tokens=200 --temperature=0.0 --num_ignore=3 --dataset="Open-COT-Data/COT-Dataset-Math"
+--min_tokens=400 --max_tokens=64000 --max_final_tokens=200 --temperature=0.0 \ 
+--num_ignore=3 --dataset="Open-COT-Data/COT-Dataset-Math"
 ```
 
 

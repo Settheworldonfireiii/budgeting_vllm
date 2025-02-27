@@ -28,3 +28,8 @@ python model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \
 Currently supports only Numina-Math dataset
 
 To get prompt steering, run file model_stats.py with the same arguments as model_budgeting.py (except dataset argument which you skip)
+
+
+utils script and Frechet BERT distance computation procedure adopted from here
+
+https://github.com/yhlleo/frechet-bert-distance

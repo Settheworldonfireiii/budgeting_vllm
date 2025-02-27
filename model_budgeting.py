@@ -20,9 +20,9 @@ if __name__ == "__main__":
     parser.add_argument('--max_final_tokens',  help="maximum amount of tokens the model is allowed to output after its thinking was interrupted and it is forced to give a final answer", type= int)
     parser.add_argument('--temperature',  help="generation temperature", type= float)
     parser.add_argument('--num_ignore',  help="how many times to ignore end-of-thinking token", type= int)
+    parser.add_argument('--dataset',  help="dataset name; currently supports only VanWang/NuminaMath-CoT_O1_Qwq and Open-COT-Data/COT-Dataset-Math", nargs='?', const = "VanWang/NuminaMath-CoT_O1_Qwq", default = "VanWang/NuminaMath-CoT_O1_Qwq", type= str)
     args=parser.parse_args()
     # Decide on a token limit for thinking; As the model's max tokens is 32768, 32000 usually ensures there is enough space for the model to still answer
-    
     # Decide how often to ignore end-of-thinking token
     NUM_IGNORE = args.num_ignore
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     
 
     stop_token_ids = tok("<|im_end|>")["input_ids"]
-    ds = load_dataset("VanWang/NuminaMath-CoT_O1_Qwq")
+    ds = load_dataset(args.dataset)
 
 
 
@@ -46,7 +46,12 @@ if __name__ == "__main__":
     prompts = ds['train']
     data = []
     for i, p in enumerate(prompts):
-        prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
+        if args.dataset =="Open-COT-Data/COT-Dataset-Math":
+            prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['instruction'] + p['input'] + "<|im_end|>\n<|im_start|>assistant\n"
+        elif args.dataset == "VanWang/NuminaMath-CoT_O1_Qwq":
+            prompt = "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n" + p['prompt'] + "<|im_end|>\n<|im_start|>assistant\n"
+        original_prompt = prompt
+        orpleen  = len(original_prompt)
         stop_token_ids = tok("<|im_start|><|im_end|>")["input_ids"]
         sampling_params = SamplingParams(
             max_tokens=args.max_tokens,
@@ -94,13 +99,22 @@ if __name__ == "__main__":
         )
         print("With budget forcing:") # You will see that after the "Wait" in the reasoning trace it fixes its answer
         print(prompt + o[0].outputs[0].text)
-        entry = { 
-                 'number' : i,
-                 'prompt' : prompt,
-                 'accepted' : p['chosen'],
-                 'rejected' : o[0].outputs[0].text
-                 }
+        if args.dataset == "VanWang/NuminaMath-CoT_O1_Qwq":
+            entry = { 
+                     'number' : i,
+                     'prompt' : original_prompt,
+                     'accepted' : p['chosen'],
+                     'rejected' : prompt[orpleen+31:] + o[0].outputs[0].text
+                     }
+        elif args.dataset == "Open-COT-Data/COT-Dataset-Math":
+            entry = {                   
+                     'number' : i,
+                     'prompt' : original_prompt,
+                     'accepted' : p['output'],
+                     'rejected' : prompt[orpleen+31:] + o[0].outputs[0].text
+                     }
+
         data.append(entry)
         
-        with open("aima-1.json", "w") as outfile:
+        with open(f"{args.dataset[:11]}.json", "w") as outfile:
             json.dump(data, outfile, indent=4)

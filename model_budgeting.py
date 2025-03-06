@@ -21,6 +21,8 @@ if __name__ == "__main__":
     parser.add_argument('--temperature',  help="generation temperature", type= float)
     parser.add_argument('--num_ignore',  help="how many times to ignore end-of-thinking token", type= int)
     parser.add_argument('--dataset',  help="dataset name; currently supports only VanWang/NuminaMath-CoT_O1_Qwq and Open-COT-Data/COT-Dataset-Math", nargs='?', const = "VanWang/NuminaMath-CoT_O1_Qwq", default = "VanWang/NuminaMath-CoT_O1_Qwq", type= str)
+    parser.add_argument('--ngpus',  help="how many gpus are you using? to parallelize", type= int)
+
     args=parser.parse_args()
     # Decide on a token limit for thinking; As the model's max tokens is 32768, 32000 usually ensures there is enough space for the model to still answer
     # Decide how often to ignore end-of-thinking token
@@ -30,7 +32,8 @@ if __name__ == "__main__":
 
     model = LLM(
         args.model_name, # s1 originally gets this prompt wrong but with budget forcing it fixes it
-    )
+        tensor_parallel_size=args.ngpus,
+        )
 
     tok = AutoTokenizer.from_pretrained(
         args.model_name

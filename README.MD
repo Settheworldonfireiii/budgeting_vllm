@@ -16,12 +16,13 @@ command line arguments:
 
 --dataset: dataset name. Currently supports only VanWang/NuminaMath-CoT_O1_Qwq and Open-COT-Data/COT-Dataset-Math
 
+--ngpus. number of GPUs to parallelize upon. Defaults to 1.
 Example:
 
 ```
 python model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \
 --min_tokens=400 --max_tokens=64000 --max_final_tokens=200 --temperature=0.0 \ 
---num_ignore=3 --dataset="Open-COT-Data/COT-Dataset-Math"
+--num_ignore=3 --dataset="Open-COT-Data/COT-Dataset-Math" --ngpus=2
 ```
 
 

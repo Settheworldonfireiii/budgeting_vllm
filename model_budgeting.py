@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('--temperature',  help="generation temperature", type= float)
     parser.add_argument('--num_ignore',  help="how many times to ignore end-of-thinking token", type= int)
     parser.add_argument('--dataset',  help="dataset name; currently supports only VanWang/NuminaMath-CoT_O1_Qwq and Open-COT-Data/COT-Dataset-Math", nargs='?', const = "VanWang/NuminaMath-CoT_O1_Qwq", default = "VanWang/NuminaMath-CoT_O1_Qwq", type= str)
-    parser.add_argument('--ngpus',  help="how many gpus are you using? to parallelize", type= int)
+    parser.add_argument('--ngpus',  help="how many gpus are you using? to parallelize", nargs = '?', const = 1, default = 1, type= int)
 
     args=parser.parse_args()
     # Decide on a token limit for thinking; As the model's max tokens is 32768, 32000 usually ensures there is enough space for the model to still answer

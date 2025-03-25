@@ -1,0 +1,432 @@
+ /users/2/radke149/budgeting_vllm/2model_budgeting.py(102)<module>()
+-> o = model.generate(
+(Pdb) s
+> /users/2/radke149/budgeting_vllm/2model_budgeting.py(103)<module>()
+-> prompt,
+(Pdb) s
+> /users/2/radke149/budgeting_vllm/2model_budgeting.py(104)<module>()
+-> sampling_params=sampling_params,
+(Pdb) s
+> /users/2/radke149/budgeting_vllm/2model_budgeting.py(105)<module>()
+-> return_hidden_states = True
+(Pdb) s
+> /users/2/radke149/budgeting_vllm/2model_budgeting.py(102)<module>()
+-> o = model.generate(
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/utils.py(1047)inner()
+-> @wraps(fn)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/utils.py(1049)inner()
+-> if is_deprecated():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/utils.py(1063)inner()
+-> return fn(*args, **kwargs)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(315)generate()
+-> @deprecate_kwargs(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(366)generate()
+-> task = self.llm_engine.model_config.task
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(367)generate()
+-> if task != "generate":
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(382)generate()
+-> if prompt_token_ids is not None:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(388)generate()
+-> parsed_prompts = cast(Union[PromptType, Sequence[PromptType]],
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(389)generate()
+-> prompts)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(388)generate()
+-> parsed_prompts = cast(Union[PromptType, Sequence[PromptType]],
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(391)generate()
+-> if isinstance(guided_options_request, dict):
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(399)generate()
+-> if sampling_params is None:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(403)generate()
+-> self._validate_and_add_requests(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(404)generate()
+-> prompts=parsed_prompts,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(405)generate()
+-> params=sampling_params,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(406)generate()
+-> lora_request=lora_request,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(407)generate()
+-> prompt_adapter_request=prompt_adapter_request,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(408)generate()
+-> guided_options=guided_options_request,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(409)generate()
+-> priority=priority)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(403)generate()
+-> self._validate_and_add_requests(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(411)generate()
+-> outputs = self._run_engine(use_tqdm=use_tqdm, return_hidden_states = return_hidden_states)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(929)_run_engine()
+-> def _run_engine(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(933)_run_engine()
+-> if use_tqdm:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(934)_run_engine()
+-> num_requests = self.llm_engine.get_num_unfinished_requests()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(935)_run_engine()
+-> pbar = tqdm(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(936)_run_engine()
+-> total=num_requests,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(937)_run_engine()
+-> desc="Processed prompts",
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(938)_run_engine()
+-> dynamic_ncols=True,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(939)_run_engine()
+-> postfix=(f"est. speed input: {0:.2f} toks/s, "
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(940)_run_engine()
+-> f"output: {0:.2f} toks/s"),
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(939)_run_engine()
+-> postfix=(f"est. speed input: {0:.2f} toks/s, "
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(935)_run_engine()
+-> pbar = tqdm(
+(Pdb) n
+Processed prompts:   0%|                                                                                                                                                                                | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(944)_run_engine()
+-> outputs: List[Union[RequestOutput, EmbeddingRequestOutput]] = []
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(945)_run_engine()
+-> total_in_toks = 0
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(946)_run_engine()
+-> total_out_toks = 0
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(947)_run_engine()
+-> self.llm_engine.return_hidden_states = return_hidden_states
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(948)_run_engine()
+-> while self.llm_engine.has_unfinished_requests():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/entrypoints/llm.py(949)_run_engine()
+-> step_outputs = self.llm_engine.step()
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1343)step()
+-> def step(self) -> List[Union[RequestOutput, EmbeddingRequestOutput]]:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1394)step()
+-> if self.parallel_config.pipeline_parallel_size > 1:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1401)step()
+-> virtual_engine = 0
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1405)step()
+-> cached_outputs = self.cached_scheduler_outputs[virtual_engine]
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1406)step()
+-> seq_group_metadata_list = cached_outputs.seq_group_metadata_list
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1407)step()
+-> scheduler_outputs = cached_outputs.scheduler_outputs
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1408)step()
+-> allow_async_output_proc = cached_outputs.allow_async_output_proc
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1410)step()
+-> ctx = self.scheduler_contexts[virtual_engine]
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1413)step()
+-> ctx.request_outputs.clear()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1418)step()
+-> if not self._has_remaining_steps(seq_group_metadata_list):
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1422)step()
+-> ) = self.scheduler[virtual_engine].schedule()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1420)step()
+-> (seq_group_metadata_list, scheduler_outputs,
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1421)step()
+-> allow_async_output_proc
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1424)step()
+-> ctx.seq_group_metadata_list = seq_group_metadata_list
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1425)step()
+-> ctx.scheduler_outputs = scheduler_outputs
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1428)step()
+-> if not allow_async_output_proc and len(ctx.output_queue) > 0:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1431)step()
+-> if (self.scheduler_config.is_multi_step
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1439)step()
+-> assert seq_group_metadata_list is not None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1440)step()
+-> assert scheduler_outputs is not None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1442)step()
+-> if not scheduler_outputs.is_empty():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1443)step()
+-> finished_requests_ids = self.scheduler[
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1444)step()
+-> virtual_engine].get_and_reset_finished_requests_ids()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1443)step()
+-> finished_requests_ids = self.scheduler[
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1444)step()
+-> virtual_engine].get_and_reset_finished_requests_ids()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1443)step()
+-> finished_requests_ids = self.scheduler[
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1451)step()
+-> self._get_last_sampled_token_ids(virtual_engine)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1450)step()
+-> last_sampled_token_ids = \
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1453)step()
+-> execute_model_req = ExecuteModelRequest(
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1454)step()
+-> seq_group_metadata_list=seq_group_metadata_list,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1455)step()
+-> blocks_to_swap_in=scheduler_outputs.blocks_to_swap_in,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1456)step()
+-> blocks_to_swap_out=scheduler_outputs.blocks_to_swap_out,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1457)step()
+-> blocks_to_copy=scheduler_outputs.blocks_to_copy,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1458)step()
+-> num_lookahead_slots=scheduler_outputs.num_lookahead_slots,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1459)step()
+-> running_queue_size=scheduler_outputs.running_queue_size,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1460)step()
+-> finished_requests_ids=finished_requests_ids,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1463)step()
+-> last_sampled_token_ids=last_sampled_token_ids)
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1453)step()
+-> execute_model_req = ExecuteModelRequest(
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1465)step()
+-> if allow_async_output_proc:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1466)step()
+-> execute_model_req.async_callback = self.async_callbacks[
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1467)step()
+-> virtual_engine]
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1466)step()
+-> execute_model_req.async_callback = self.async_callbacks[
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1469)step()
+-> outputs = self.model_executor.execute_model(
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1470)step()
+-> execute_model_req=execute_model_req)
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/engine/llm_engine.py(1469)step()
+-> outputs = self.model_executor.execute_model(
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/executor/gpu_executor.py(122)execute_model()
+-> def execute_model(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/executor/gpu_executor.py(125)execute_model()
+-> output = self.driver_worker.execute_model(execute_model_req)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(311)execute_model()
+-> def execute_model(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(317)execute_model()
+-> start_time = time.perf_counter()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(319)execute_model()
+-> inputs = self.prepare_input(execute_model_req)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(320)execute_model()
+-> if inputs is None:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(323)execute_model()
+-> model_input, worker_input, kwargs = inputs
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(324)execute_model()
+-> num_steps = worker_input.num_steps
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(326)execute_model()
+-> self.execute_worker(worker_input)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(113)decorate_context()
+-> @functools.wraps(func)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(115)decorate_context()
+-> with ctx_factory():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(116)decorate_context()
+-> return func(*args, **kwargs)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(338)execute_worker()
+-> @torch.inference_mode()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(340)execute_worker()
+-> virtual_engine = worker_input.virtual_engine
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(342)execute_worker()
+-> if (worker_input.blocks_to_swap_in is not None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(343)execute_worker()
+-> and worker_input.blocks_to_swap_in.numel() > 0):
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(346)execute_worker()
+-> if (worker_input.blocks_to_swap_out is not None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(347)execute_worker()
+-> and worker_input.blocks_to_swap_out.numel() > 0):
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(350)execute_worker()
+-> if (worker_input.blocks_to_copy is not None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(351)execute_worker()
+-> and worker_input.blocks_to_copy.numel() > 0):
+(Pdb) n
+--Return--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(351)execute_worker()->None
+-> and worker_input.blocks_to_copy.numel() > 0):
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(115)decorate_context()
+-> with ctx_factory():
+(Pdb) n
+--Return--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(115)decorate_context()->None
+-> with ctx_factory():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(329)execute_model()
+-> if worker_input.num_seq_groups == 0:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(332)execute_model()
+-> intermediate_tensors = None
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(333)execute_model()
+-> orig_model_execute_time = 0.0
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(334)execute_model()
+-> if not get_pp_group().is_first_rank:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(344)execute_model()
+-> output = self.model_runner.execute_model(
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(345)execute_model()
+-> model_input=model_input,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(347)execute_model()
+-> if self.kv_cache is not None else None,
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(304)kv_cache()
+-> @property
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(306)kv_cache()
+-> return self.gpu_cache
+(Pdb) s
+--Return--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(306)kv_cache()->[[tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), ...]]
+-> return self.gpu_cache
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(346)execute_model()
+-> kv_caches=self.kv_cache[worker_input.virtual_engine]
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(304)kv_cache()
+-> @property
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(306)kv_cache()
+-> return self.gpu_cache
+(Pdb) s
+--Return--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker.py(306)kv_cache()->[[tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), tensor([[[[[0...orch.bfloat16), ...]]
+-> return self.gpu_cache
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(348)execute_model()
+-> intermediate_tensors=intermediate_tensors,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(349)execute_model()
+-> num_steps=num_steps,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(344)execute_model()
+-> output = self.model_runner.execute_model(
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(350)execute_model()
+-> **kwargs,
+(Pdb) s
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/worker_base.py(344)execute_model()
+-> output = self.model_runner.execute_model(
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(113)decorate_context()
+-> @functools.wraps(func)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(115)decorate_context()
+-> with ctx_factory():
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/torch/utils/_contextlib.py(116)decorate_context()
+-> return func(*args, **kwargs)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner_base.py(113)_wrapper()
+-> @wraps(func)
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner_base.py(115)_wrapper()
+-> try:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner_base.py(116)_wrapper()
+-> return func(*args, **kwargs)
+(Pdb) s
+--Call--
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner.py(1606)execute_model()
+-> @torch.inference_mode()
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner.py(1615)execute_model()
+-> if num_steps > 1:
+(Pdb) n
+> /users/2/radke149/anaconda3/envs/dsqwen/lib/python3.12/site-packages/vllm/worker/model_runner.py(1618)execute_model()
+-> if self.lora_config:
+(Pdb) 
+

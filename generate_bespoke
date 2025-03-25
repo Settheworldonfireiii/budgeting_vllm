@@ -1,0 +1,25 @@
+#!/bin/bash -l
+#SBATCH --time=10:00:00
+#SBATCH --ntasks=4         # Increase number of tasks to match nproc_per_node
+#SBATCH --cpus-per-task=4  # Allocate 4 CPUs per task for data loading workers
+#SBATCH --mem=50g
+#SBATCH --tmp=10g
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=radke149@umn.edu
+#SBATCH -p a100-4	
+#SBATCH --gres=gpu:a100:4  # Request 2 GPUs to match nproc_per_node
+
+
+cd /users/2/radke149/budgeting_vllm
+
+
+source /users/2/radke149/anaconda3/etc/profile.d/conda.sh
+
+
+conda activate dsqwclone
+
+
+export OMP_NUM_THREADS=1  # You can adjust this value as needed
+
+torchrun --nproc_per_node=4 python -m 3model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --min_tokens=32000 --max_tokens=32000 --max_final_tokens=0 --temperature=0.0  --num_ignore=0 --dataset="bespokelabs/Bespoke-Stratos-17k" --ngpus=4 --topp=0.000000001 --mode="strict"
+

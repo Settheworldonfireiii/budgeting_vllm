@@ -1,0 +1,57 @@
+/users/2/radke149/anaconda3/envs/dsqwclone/bin/python: can't open file '/users/2/radke149/budgeting_vllm/python': [Errno 2] No such file or directory
+/users/2/radke149/anaconda3/envs/dsqwclone/bin/python: can't open file '/users/2/radke149/budgeting_vllm/python': [Errno 2] No such file or directory
+/users/2/radke149/anaconda3/envs/dsqwclone/bin/python: can't open file '/users/2/radke149/budgeting_vllm/python': [Errno 2] No such file or directory
+/users/2/radke149/anaconda3/envs/dsqwclone/bin/python: can't open file '/users/2/radke149/budgeting_vllm/python': [Errno 2] No such file or directory
+E0326 10:20:41.527000 1249858 site-packages/torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 2) local_rank: 0 (pid: 1249862) of binary: /users/2/radke149/anaconda3/envs/dsqwclone/bin/python
+Traceback (most recent call last):
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/lib/python3.12/site-packages/torch/distributed/run.py", line 919, in main
+    run(args)
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/lib/python3.12/site-packages/torch/distributed/run.py", line 910, in run
+    elastic_launch(
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/2/radke149/anaconda3/envs/dsqwclone/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+python FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2025-03-26_10:20:41
+  host      : aga20.agate.msi.umn.edu
+  rank      : 1 (local_rank: 1)
+  exitcode  : 2 (pid: 1249863)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2025-03-26_10:20:41
+  host      : aga20.agate.msi.umn.edu
+  rank      : 2 (local_rank: 2)
+  exitcode  : 2 (pid: 1249864)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2025-03-26_10:20:41
+  host      : aga20.agate.msi.umn.edu
+  rank      : 3 (local_rank: 3)
+  exitcode  : 2 (pid: 1249865)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-03-26_10:20:41
+  host      : aga20.agate.msi.umn.edu
+  rank      : 0 (local_rank: 0)
+  exitcode  : 2 (pid: 1249862)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

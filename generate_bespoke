@@ -21,5 +21,5 @@ conda activate dsqwclone
 
 export OMP_NUM_THREADS=1  # You can adjust this value as needed
 
-python 3model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --min_tokens=32000 --max_tokens=32000 --max_final_tokens=200 --temperature=0.1  --num_ignore=2 --dataset="bespokelabs/Bespoke-Stratos-17k" --ngpus=4 --topp=0.000000001 --mode="lax"
+python 3model_budgeting.py --model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --min_tokens=28000 --max_tokens=28000 --max_final_tokens=200 --temperature=0.0  --num_ignore=1 --dataset="bespokelabs/Bespoke-Stratos-17k" --ngpus=4 --topp=0.000000001 --mode="lax"
 

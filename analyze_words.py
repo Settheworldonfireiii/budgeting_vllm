@@ -4,26 +4,6 @@ import argparse
 import json
 
 
-def increment_duplicate_keys(json_string):
-    """
-    Parses a JSON string and increments values for duplicate keys.
-
-    Args:
-        json_string: The JSON string to parse.
-
-    Returns:
-        A dictionary with incremented values for duplicate keys.
-    """
-    data = json.loads(json_string)
-    result = defaultdict(int)
-
-    for key, value in data.items():
-        if isinstance(value, int):
-          result[key] += value
-        else:
-          result[key] = value # If the value is not an integer, keep the last seen value
-
-    return dict(result)
 
 
 
@@ -40,28 +20,36 @@ def word_stat(text):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--filename', help="full file path",  nargs = '?', const = "bespokelabs_4042025.json", default = "bespokelabs_4042025.json", type= str)
-    parser.add_argument('--filenames', help="full file path",  nargs = '?', const = "bespokelabs_4042025.json bespokelabs_13042025.json bespokelabs_6042025.json bespokelabs_31032025.json bespokelabs_14032025.json", default = "bespokelabs_4042025.json bespokelabs_13042025.json bespokelabs_6042025.json bespokelabs_31032025.json bespokelabs_14032025.json", type= str)
+    parser.add_argument('--filenames', help="full file path",  nargs = '?', const = None, default = None, type= str)
 
     args=parser.parse_args()
     if args.filenames is not None:
-        text = {}
-        for filename in args.filenames.split("\t"):
+        text = []
+        for filename in args.filenames.split():
             print(filename)
-            with open(args.filename, 'rb') as f:
-                text.update(json.loads(f.read()))
-                text = increment_duplicate_keys(text)
-
+            with open(filename, 'rb') as f:
+                file_raw  = f.read()
+                file_json = json.loads(file_raw)
+                for item in file_json:
+                    text.append(item)
     else:
         with open(args.filename, 'rb') as f:
             cntnt = f.read()
         text = json.loads(cntnt)
     words = []
+    tot = len(text)
+    lenacc_tot = 0
+    lenrej_tot = 0
     for item in text:
+        print(len(text))
         rejlen = len(item['rejected'])
-        acclen = len(iten['accepted'])
+        acclen = len(item['accepted'])
+        lenrej_tot += rejlen
+        lenacc_tot += acclen
         print(f'accepted length {acclen} vs rejected len {rejlen}')
         word = re.findall(r"[a-zA-Z0-9']+", item['rejected'].lower())
         words.extend(word)
+    print(f'accepted average length is {lenacc_tot/tot}, rejected average length is {lenrej_tot/tot}')
     word_counts = Counter(words)
     top_30 = word_counts.most_common(30)
     print(top_30)
@@ -76,10 +64,10 @@ if __name__ == "__main__":
         word = input("Enter a word: ").split()[0]
         print("You entered:", word)
         print(word_counts[word])
-        word =  input("Enter a word combination: ")
+        word =  input("Enter a two word combination: ")
         print("You entered:", word)
         print(combs[word])
-        word =  input("Enter a word combination: ")
+        word =  input("Enter a three  word combination: ")
         print("You entered:", word)
         print(combs_3[word])
 

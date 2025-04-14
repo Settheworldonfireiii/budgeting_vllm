@@ -110,7 +110,7 @@ if __name__ == "__main__":
                 max_tokens_thinking_tmp -= len(o[0].outputs[0].token_ids)
                 prompt += o[0].outputs[0].text + args.ignore_string
                 sampling_params = SamplingParams(
-                    min_tokens= max(max_tokens_thinking_tmp, 400),
+                    max_tokens=max(max_tokens_thinking_tmp, 400),
                     stop_token_ids=stop_token_ids,
                     skip_special_tokens=False,
                     temperature=args.temperature,
@@ -128,7 +128,7 @@ if __name__ == "__main__":
                 max_tokens_thinking_tmp -= len(o[0].outputs[0].token_ids)
                 prompt += o[0].outputs[0].text + args.ignore_string
                 sampling_params = SamplingParams(
-                    min_tokens= max(max_tokens_thinking_tmp, 400),
+                    max_tokens= max(max_tokens_thinking_tmp, 400),
                     stop_token_ids=stop_token_ids,
                     skip_special_tokens=False,
                     temperature=args.temperature,
@@ -149,6 +149,7 @@ if __name__ == "__main__":
         if args.max_final_tokens > 0:
             stop_token_ids = tok("<|im_end|>")["input_ids"]
             sampling_params = SamplingParams(
+                max_tokens=args.max_tokens,
                 min_tokens=args.max_final_tokens,
                 stop_token_ids=stop_token_ids,
                 skip_special_tokens=False,
